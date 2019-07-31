@@ -30,10 +30,12 @@
 
 #panel {
     display: flex;
-    width: 30rem;
+    margin: 0 auto;
+    vertical-align: center;
+    max-width: 100%;
+    width: 50rem;
     background: aliceblue;
     border: 1px lightblue solid;
-    /* border-radius: .25rem; */
 }
 
 #panel-center {
@@ -44,49 +46,64 @@
     justify-content: space-around;
 }
 
-.btn-round {
-    margin: .25rem;
-    border: none;
+.flex-box {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+    padding-top: 1rem;
+}
+
+.card {
+    padding: .25rem;
+}
+
+/* .card-checked {
+    padding: .25rem;
+    border-radius: 3px;
+    border: 1px solid lightblue;
+} */
+
+.card-img {
     height: 5rem;
     width: 5rem;
     border-radius: 5rem;
-
-    background: white;
+    background-color: white;
+    box-shadow: 0 0 5px #888;
 }
-.btn-round-small {
+
+.card-img-checked {
+    height: 5rem;
+    width: 5rem;
+    border-radius: 5rem;
+    background-color: white;
+    box-shadow: 0 0 5px #888;
+
+    border: .25rem solid deeppink;
+
+}
+
+.card-text {
+    font-size: 1rem;
+    font-weight: 100;
     margin: .25rem;
-    border: none;
-    height: 3rem;
-    width: 3rem;
-    border-radius: 3rem;
-
-    background: white;
+    text-align: center;
 }
 
-.c1 {
-    color: white;
-    background: darksalmon;
+.card-big {
+
 }
-
-.c2 {
-    color: white;
-    background: darkseagreen;
+.card-img-big {
+    height: 7rem;
+    width: 7rem;
+    border-radius: 7rem;
+    background-color: white;
+    box-shadow: 0 0 5px #888;
+    border: .25rem solid white;
 }
-
-.c01 {
-    color: black;
-    background: lightblue;
-}
-
-.c02 {
-    color: black;
-    background: lightblue;
-}
-
-.flex-box {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
-    padding-top: .25rem;
+.card-text-big {
+    font-size: 1.5rem;
+    font-weight: 100;
+    margin-top: .25rem;
+    text-align: center;
 }
