@@ -64,39 +64,28 @@ window.addEventListener('load', () => {
 
 })
 /*****************************************************************************/
-function FFT_SOUND(sound){
-    const size = 131072;
-//    const size = 1024;
-    const f = new FFT(size);
+function change_fft(sound){
     var data = discretize(get_wave(sound), get_duration(sound));
+    const datal = data.length;
+    const size = Math.pow(2, Math.ceil(Math.log(datal) / Math.LN2));
+    const f = new FFT(size);
     const out=f.createComplexArray();
-    data.length = size;
+    for(i = datal; i < size; i++){
+        data[i] = 0;
+    } 
     const data2 = f.toComplexArray(data);
     f.transform(out,data2);
     
-/*    for(i = 0; i < size * 2; i++){
-        if(0.5 * i * FS / size < 300 || 0.5 * i * FS / size > 3400)
-            out[i] = 0;
-    }
-*/
-
     for(i = size;i < 2 * size; i++){
         out[i] = 0;
     }
-/*
-    for(i = 200 * (2 * size / FS); i < 1400 * (2 * size / FS); i++){
-        out[i] = out[i + 200 * (2 * size / FS)];
-    }
-    for(i = 1400 * (2 * size / FS); i < 1600 * (2 * size / FS); i++){
-        out[i] = 0;
-    }
-*/
+
 
     for(i = Math.floor(2000 * (size / FS)); i > 700 * (size / FS); i--){
         out[2 * i] = out[2 * i - Math.floor(400 * (2 * size / FS))];
         out[2 * i + 1] = out[2 * i + 1 - Math.floor(400 * (2 * size / FS))];
     }
-    for(i = Math.floor(3 * (size / FS)); i < 700 * (size / FS); i++){
+    for(i = Math.floor(300 * (size / FS)); i < 700 * (size / FS); i++){
         out[2 * i] = 0;
         out[2 * i + 1] = 0;
     }
@@ -104,11 +93,9 @@ function FFT_SOUND(sound){
     var _data=new Array(size);
     f.inverseTransform(_data,out);
     const _data2 = f.fromComplexArray(_data);
-    _safeaudio = raw_to_audio(_data2);
-    _safeaudio.addEventListener('ended', stop);
-    _safeaudio.play();
-    _safeplaying = true;
-    return out;
+    _data2.length = data.length;
+
+    return array_to_sound(_data2);
 }
 
 
@@ -242,7 +229,7 @@ function change_backInTime(sound){
 }
 
 let bgms = [bgm_silence(), bgm_silence(), bgm_celebrate(), bgm_folk(), bgm_Children_Song(), bgm_lyric(), bgm_classical()];
-let changes = [change_nochange, change_nochange, change_fatBoy, change_backInTime, change_valleyEcho, change_cuteMonster, change_fatBoy];
+let changes = [change_nochange, change_nochange, change_fatBoy, change_backInTime, change_valleyEcho, change_cuteMonster, change_fft];
 /*****************************************************************************/
 
 
