@@ -122,7 +122,7 @@ function change_volume(sound, k) {
 
 // play changed sound with background music
 function play_it(sound, change, bgm) {
-    play(play_with_bgm(change_volume(bgm, 0.1), change(sound)));
+    play(play_with_bgm(change_volume(bgm, 0.2), change(sound)));
 }
 
 function play_with_bgm(bgm, ss2) {
@@ -241,7 +241,7 @@ function change_backInTime(sound){
     return make_sound(t => w(d - t), d);
 }
 
-let bgms = [bgm_silence(), bgm_silence(), bgm_celebrate(), bgm_folk(), bgm_Children_Song(), bgm_lyric(), change_volume(bgm_classical(), 2)];
+let bgms = [bgm_silence(), bgm_silence(), bgm_celebrate(), bgm_folk(), bgm_Children_Song(), bgm_lyric(), bgm_classical()];
 let changes = [change_nochange, change_nochange, change_fatBoy, change_backInTime, change_valleyEcho, change_cuteMonster, change_fatBoy];
 /*****************************************************************************/
 
