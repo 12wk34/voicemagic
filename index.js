@@ -113,26 +113,26 @@ function FFT_SOUND(sound){
 
 
 function array_to_sound(sound_array){
-    return pair(t => sound_array[Math.floor(t*FS)], Math.floor(sound_array.length/FS));
+    return make_sound(t => sound_array[Math.floor(t*FS)], Math.floor(sound_array.length/FS));
 }
 
-function volume_up(sound) {
-    return pair(t => 10 * head(sound)(t), tail(sound));
+function change_volume(sound, k) {
+    return make_sound(t => k * head(sound)(t), tail(sound));
 }
 
 // play changed sound with background music
 function play_it(sound, change, bgm) {
-    play(play_with_bgm(bgm, change(sound)));
+    play(play_with_bgm(change_volume(bgm, 0.1), change(sound)));
 }
 
 function play_with_bgm(bgm, ss2) {
     var dur1 = tail(bgm);
     var dur2 = tail(ss2);
     while(dur1<dur2){
-        bgm=consecutively(list(bgm,bgm));
-        dur1=tail(bgm);
+        bgm = consecutively(list(bgm,bgm));
+        dur1 = tail(bgm);
     }
-    var wave1 = t => 0.1 * head(bgm)(t);
+    var wave1 = head(bgm);
     var wave2 = head(ss2);
     // new_wave assumes sound discipline (ie, wave(t) = 0 after t > dur)
     var new_wave = t => wave1(t) + wave2(t);
@@ -236,28 +236,12 @@ function change_cuteMonster(sound){
 }
 
 function change_backInTime(sound){
-    var data = discretize(get_wave(sound), get_duration(sound));
-    var ret = [];
-    for (var i = 0; i < data.length; i++) {
-        ret[i] = data[data.length-i];
-    }
-//    ret = simple_filter(ret);
-//    ret = quantize(ret);
-    return array_to_sound(ret);
-/*    var riffwave = new RIFFWAVE();
-    riffwave.header.sampleRate = FS;
-    riffwave.header.numChannels = 1;
-    riffwave.Make(ret);
-    var audio = new Audio(riffwave.dataURI);
-    _safeaudio = audio;
-
-    _safeaudio.addEventListener('ended', stop);
-    _safeaudio.play();
-    _safeplaying = true;
-*/
+    const w = get_wave(sound);
+    const d = get_duration(sound);
+    return make_sound(t => w(d - t), d);
 }
 
-let bgms = [bgm_silence(), bgm_silence(), bgm_celebrate(), bgm_folk(), bgm_Children_Song(), bgm_lyric(), bgm_classical()];
+let bgms = [bgm_silence(), bgm_silence(), bgm_celebrate(), bgm_folk(), bgm_Children_Song(), bgm_lyric(), change_volume(bgm_classical(), 2)];
 let changes = [change_nochange, change_nochange, change_fatBoy, change_backInTime, change_valleyEcho, change_cuteMonster, change_fatBoy];
 /*****************************************************************************/
 
