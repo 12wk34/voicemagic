@@ -122,7 +122,7 @@ function change_volume(sound, k) {
 
 // play changed sound with background music
 function play_it(sound, change, bgm) {
-    play(play_with_bgm(change_volume(bgm, 0.2), change(sound)));
+    play(play_with_bgm(change_volume(bgm, 0.3), change(sound)));
 }
 
 function play_with_bgm(bgm, ss2) {
